@@ -2,6 +2,7 @@ import React from "react"
 import { graphql, Link } from "gatsby"
 
 import Layout from "../components/layout"
+import Head from "../components/head"
 
 import blogStyles from "./blog.module.scss"
 const BlogPage = ({ data }) => {
@@ -9,6 +10,7 @@ const BlogPage = ({ data }) => {
 
   return (
     <Layout>
+      <Head title="blog" />
       <h1>Blog</h1>
       <ol className={blogStyles.posts}>
         {data.allMarkdownRemark.edges.map(({ node }) => {

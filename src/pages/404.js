@@ -2,18 +2,19 @@ import React from "react"
 import { Link } from "gatsby"
 
 import Layout from "../components/layout"
+
 import Head from "../components/head"
 
-const IndexPage = () => {
+const NotFound = () => {
   return (
     <Layout>
-      <Head title="Home" />
-      <h1>Hello</h1>
-      <p>Aynur here</p>
+      <Head title="Error" />
+      <h1>Page not found</h1>
       <p>
-        Need a developer? <Link to="/contact">Contact me</Link>
+        <Link to="/">Home page</Link>
       </p>
     </Layout>
   )
 }
-export default IndexPage
+
+export default NotFound
