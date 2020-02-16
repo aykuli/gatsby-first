@@ -10,19 +10,17 @@ const BlogPage = ({ data }) => {
   return (
     <Layout>
       <h1>Blog</h1>
-      <ol>
+      <ol className={blogStyles.posts}>
         {data.allMarkdownRemark.edges.map(({ node }) => {
           return (
-            <li key={node.id}>
+            <li key={node.id} className={blogStyles.post}>
               <Link
                 to={`/blog/${node.fields.slug}/`}
                 className={blogStyles.blogTitle}
               >
-                {node.frontmatter.title}
+                <h2>{node.frontmatter.title}</h2>
+                <p className={blogStyles.blogDate}>{node.frontmatter.date}</p>
               </Link>
-              <span className={blogStyles.blogDate}>
-                {node.frontmatter.date}
-              </span>
             </li>
           )
         })}
