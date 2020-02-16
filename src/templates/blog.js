@@ -3,29 +3,27 @@ import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
 
-const Blog = ({ data }) => {
-  console.log("data: ", data)
-  return <Layout>Template page</Layout>
-}
-
-export default Blog
-
 export const query = graphql`
-  query {
-    allMarkdownRemark {
-      edges {
-        node {
-          frontmatter {
-            title
-            date
-          }
-          html
-          excerpt
-          fields {
-            slug
-          }
-        }
+  query($slug: String!) {
+    markdownRemark(fields: { slug: { eq: $slug } }) {
+      frontmatter {
+        title
+        date
       }
+      html
     }
   }
 `
+
+const Blog = ({ data }) => {
+  console.log("data: ", data)
+  return (
+    <Layout>
+      <h1>{data.markdownRemark.frontmatter.title}</h1>
+      <p>{data.markdownRemark.frontmatter.date}</p>
+      <div dangerouslySetInnerHTML={{ __html: data.markdownRemark.html }} />
+    </Layout>
+  )
+}
+
+export default Blog
