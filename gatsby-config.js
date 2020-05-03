@@ -1,42 +1,68 @@
-let activeEnv =
-  process.env.GATSBY_ACTIVE_ENV || process.env.NODE_ENV || "development"
-
-console.log("Using environment config: ${activeEnv}")
-
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
-})
+/**
+ * Configure your Gatsby site with this file.
+ *
+ * See: https://www.gatsbyjs.org/docs/gatsby-config/
+ */
 
 module.exports = {
   siteMetadata: {
-    title: "Gatsby first",
-    author: "Aynur Shauerman",
+    title: "Boidiversita",
+    description: "Boidiversita",
   },
   plugins: [
-    "gatsby-plugin-react-helmet",
-    `gatsby-plugin-sass`,
+    "gatsby-plugin-material-ui",
+    "gatsby-plugin-sass",
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: "gatsby-plugin-manifest",
       options: {
-        name: "src",
-        path: `${__dirname}/src/`,
+        name: "Boidiversita",
+        short_name: "Boidiversita",
+        start_url: "/",
+        icon: `${__dirname}/static/favicon.ico`,
       },
     },
-    "gatsby-plugin-sharp",
     {
-      resolve: `gatsby-transformer-remark`,
+      resolve: `gatsby-plugin-intl`,
       options: {
-        plugins: [
-          "gatsby-remark-relative-images",
-          {
-            resolve: "gatsby-remark-images",
-            options: {
-              maxWidth: 750,
-              linkImagesToOriginal: false,
-            },
-          },
-        ],
+        path: `${__dirname}/src/intl`,
+        languages: [`it`, `en`],
+        defaultLanguage: `it`,
+        redirect: true,
+        redirectComponent: require.resolve(`./src/components/Redirect.jsx`),
       },
     },
+    {
+      resolve: "gatsby-plugin-i18n",
+      options: {
+        langKeyDefault: "it",
+        useLangKeyLayout: false,
+      },
+    },
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
+    {
+      // keep as first gatsby-source-filesystem plugin for gatsby image support
+      resolve: "gatsby-source-filesystem",
+      options: {
+        path: `${__dirname}/static/imgs`,
+        name: "uploads",
+      },
+    },
+    {
+      resolve: "gatsby-remark-images",
+      options: {
+        // It's important to specify the maxWidth (in pixels) of
+        // the content container as this plugin uses this as the
+        // base for generating different widths of each image.
+        maxWidth: 2048,
+      },
+    },
+    {
+      resolve: "gatsby-plugin-purgecss", // purges all unused/unreferenced css rules
+      options: {
+        develop: true, // Activates purging in npm run develop
+        purgeOnly: ["/all.sass"], // applies purging only on the bulma css file
+      },
+    }, // must be after other CSS plugins
   ],
 }
